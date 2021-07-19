@@ -16,7 +16,8 @@
     "bootstrap": "^4.6.0",
     "bootstrap-vue": "^2.21.2",
     "core-js": "^3.15.1",
-    "nuxt": "^2.15.7"
+    "nuxt": "^2.15.7",
+    "vue-fragment": "^1.5.2"
   },
   "devDependencies": {
     "@babel/eslint-parser": "^7.14.7",
@@ -30,7 +31,10 @@
     "eslint": "^7.29.0",
     "eslint-plugin-nuxt": "^2.0.0",
     "eslint-plugin-vue": "^7.12.1",
+    "fibers": "^5.0.0",
     "jest": "^27.0.5",
+    "sass": "^1.35.2",
+    "sass-loader": "^10.2.0",
     "ts-jest": "^27.0.3",
     "vue-jest": "^3.0.4"
   }
