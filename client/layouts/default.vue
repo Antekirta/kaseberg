@@ -1,14 +1,14 @@
 <template>
   <div>
-    <main-header />
+<!--    <main-header />-->
 
-    <main-sidebar />
+<!--    <main-sidebar />-->
 
-    <b-container>
+    <b-container class="px-0 px-lg-2">
       <nuxt />
     </b-container>
 
-    <main-footer />
+<!--    <main-footer />-->
   </div>
 </template>
 

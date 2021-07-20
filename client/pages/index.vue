@@ -1,5 +1,5 @@
 <template>
-  <div id="index-page" class="py-5">
+  <div id="index-page" class="py-5 px-lg-0">
     <main-carousel />
 
     <page-section title=" / Магазин" class="pt-5">

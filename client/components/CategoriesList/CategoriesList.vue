@@ -1,7 +1,15 @@
 <template>
   <div class="categories-list">
-    <b-row>
-      <b-col v-for="category in categories" :key="category.id" cols="4" class="mb-5">
+    <b-row class="mx-0">
+      <b-col
+        v-for="category in categories"
+        :key="category.id"
+        col
+        cols="12"
+        xl="4"
+        lg="6"
+        class="mb-5"
+      >
         <category-item :category="category" />
       </b-col>
     </b-row>

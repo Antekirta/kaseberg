@@ -34,6 +34,8 @@ export default {
 .category-item {
   $this: &;
 
+  display: block;
+  width: 100%;
   overflow: hidden;
   color: $my__color--black;
 
@@ -46,6 +48,11 @@ export default {
   &__description {
     font-size: 18px;
     text-transform: none;
+  }
+
+  &__img {
+    display: block;
+    width: 100%;
   }
 
   &:hover {

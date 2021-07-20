@@ -36,6 +36,7 @@ export default {
 .product-item {
   $this: &;
 
+  width: 100%;
   overflow: hidden;
   text-transform: none;
   text-decoration: none;
@@ -51,6 +52,8 @@ export default {
   }
 
   &__img {
+    width: 100%;
+
     &--primary {
       display: block;
     }

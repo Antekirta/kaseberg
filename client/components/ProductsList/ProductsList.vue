@@ -1,11 +1,15 @@
 <template>
   <div class="products-list">
-    <b-row>
-      <b-col v-for="product in products" :key="product.id" cols="4" class="mb-5">
-        <product-item :product="product" />
-      </b-col>
-
-      <b-col v-for="product in products" :key="product.id" cols="4">
+    <b-row class="mx-0">
+      <b-col
+        v-for="product in products"
+        :key="product.id"
+        col
+        cols="12"
+        xl="4"
+        lg="6"
+        class="mb-5"
+      >
         <product-item :product="product" />
       </b-col>
     </b-row>

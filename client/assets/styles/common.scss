@@ -2,6 +2,7 @@
 @import "colors";
 
 body {
+  overflow-x: hidden;
   background-color: $my__color--milk;
   font-family: 'Open Sans Condensed', sans-serif;
 }
