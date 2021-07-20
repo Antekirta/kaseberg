@@ -26,5 +26,10 @@ export default {
   font-size: 24px;
   font-family: 'Deutsch Gothic';
   color: $my__color--gold;
+
+  &:hover {
+    transition: 0.3s;
+    color: $my__color--black;
+  }
 }
 </style>

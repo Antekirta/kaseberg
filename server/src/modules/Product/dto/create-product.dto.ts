@@ -4,6 +4,8 @@ export class CreateProductDto {
   readonly subtitle;
   readonly description;
   readonly images;
+  readonly coverPrimary;
+  readonly coverSecondary;
   readonly price;
   readonly dateCreate;
   readonly dateReady;

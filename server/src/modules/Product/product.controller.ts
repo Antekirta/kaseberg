@@ -6,10 +6,13 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ProductService } from './product.service';
 import { ObjectId } from 'mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 
 @Controller('products')
 export class ProductController {
@@ -26,10 +29,16 @@ export class ProductController {
   }
 
   @Post()
-  create(@Body() dto: CreateProductDto) {
-    console.log('controller dto: ', { ...dto });
+  @UseInterceptors(
+    FileFieldsInterceptor([
+      { name: 'coverPrimary', maxCount: 1 },
+      { name: 'coverSecondary', maxCount: 1 },
+    ]),
+  )
+  create(@UploadedFiles() files, @Body() dto: CreateProductDto) {
+    const { coverPrimary, coverSecondary } = files;
 
-    return this.productService.create(dto);
+    return this.productService.create(dto, coverPrimary[0], coverSecondary[0]);
   }
 
   @Patch()

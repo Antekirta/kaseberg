@@ -30,7 +30,6 @@ export default {
 .main-carousel {
   &__slide {
     transition: 1s;
-    font-family: 'Open Sans Condensed', sans-serif;
   }
 }
 </style>

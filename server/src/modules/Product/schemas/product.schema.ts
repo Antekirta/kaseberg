@@ -24,6 +24,12 @@ export class Product {
   images: string[];
 
   @Prop()
+  coverPrimary: string;
+
+  @Prop()
+  coverSecondary: string;
+
+  @Prop()
   price: number;
 
   @Prop()

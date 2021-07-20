@@ -1,5 +1,5 @@
 <template>
-  <b-container class="main-header py-3" fluid="xl">
+  <b-container class="main-header pb-2 pt-4" fluid="xl">
     <b-row>
       <b-col cols="5">
         <main-menu :items="mainMenuItems" />
@@ -74,9 +74,6 @@ export default {
 
 <style lang="scss" scoped>
 .main-header {
-  //outline: solid 1px #222;
-  font-family: 'Open Sans Condensed', sans-serif;
-
   &__logo {
     transform: translateY(-7px);
     font-size: 30px;

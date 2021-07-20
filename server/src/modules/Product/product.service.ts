@@ -3,11 +3,13 @@ import { Model, ObjectId } from 'mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Product, ProductDocument } from './schemas/product.schema';
+import { FileFolderType, FileService } from '../File/file.service';
 
 @Injectable()
 export class ProductService {
   constructor(
     @InjectModel(Product.name) private productModel: Model<ProductDocument>,
+    private fileService: FileService,
   ) {}
 
   async getAll(count = 10, offset = 0): Promise<Product[]> {
@@ -18,10 +20,24 @@ export class ProductService {
     return this.productModel.findById(id);
   }
 
-  async create(dto: CreateProductDto): Promise<ObjectId> {
-    const product = await this.productModel.create({ ...dto });
-
-    console.log('dto: ', { ...dto });
+  async create(
+    dto: CreateProductDto,
+    coverPrimaryFile,
+    coverSecondaryFile,
+  ): Promise<ObjectId> {
+    const coverPrimaryPath = this.fileService.createFile(
+      FileFolderType.PRODUCT,
+      coverPrimaryFile,
+    );
+    const coverSecondaryPath = this.fileService.createFile(
+      FileFolderType.PRODUCT,
+      coverSecondaryFile,
+    );
+    const product = await this.productModel.create({
+      ...dto,
+      coverPrimary: coverPrimaryPath,
+      coverSecondary: coverSecondaryPath,
+    });
 
     return product.id;
   }
