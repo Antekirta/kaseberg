@@ -12,6 +12,9 @@ export class Category {
   description: string;
 
   @Prop()
+  cover: string;
+
+  @Prop()
   urlAlias: string;
 }
 

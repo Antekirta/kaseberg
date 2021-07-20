@@ -1,4 +1,4 @@
 export enum SCHEMAS {
-    Category = 'Category',
-    Product = 'Product'
+  Category = 'Category',
+  Product = 'Product',
 }

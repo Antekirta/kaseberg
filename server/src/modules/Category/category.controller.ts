@@ -6,10 +6,13 @@ import {
   Param,
   Patch,
   Post,
+  UploadedFiles,
+  UseInterceptors,
 } from '@nestjs/common';
 import { ObjectId } from 'mongoose';
 import { CategoryService } from './category.service';
 import { CreateCategoryDto } from './create-category.dto';
+import { FileFieldsInterceptor } from '@nestjs/platform-express';
 
 @Controller('category')
 export class CategoryController {
@@ -26,8 +29,13 @@ export class CategoryController {
   }
 
   @Post()
-  create(@Body() dto: CreateCategoryDto) {
-    return this.categoryService.create(dto);
+  @UseInterceptors(FileFieldsInterceptor([{ name: 'cover', maxCount: 1 }]))
+  create(@UploadedFiles() files, @Body() dto: CreateCategoryDto) {
+    console.log('files: ', files);
+
+    const { cover } = files;
+
+    return this.categoryService.create(dto, cover[0]);
   }
 
   @Patch()
