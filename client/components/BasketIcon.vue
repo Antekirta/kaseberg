@@ -12,17 +12,24 @@ export default {
     BIconBasket3Fill
   },
   computed: {
-    title() {
-      return 'Корзина пуста';
+    title () {
+      return 'Корзина пуста'
     }
   }
 }
 </script>
 
 <style lang="scss">
-@import "assets/styles/colors";
+@import "assets/styles/common";
 
 .basket-icon {
+  @media all and (max-width: map-get($grid-breakpoints, 'sm')) {
+    position: fixed;
+    top: 5px;
+    right: 10px;
+    z-index: 99;
+  }
+
   &__icon {
     cursor: pointer;
 

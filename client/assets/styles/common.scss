@@ -1,6 +1,14 @@
 @import "fonts";
 @import "colors";
 
+$grid-breakpoints: (
+  xs: 0,
+  sm: 576px,
+  md: 768px,
+  lg: 992px,
+  xl: 1200px
+);
+
 body {
   overflow-x: hidden;
   background-color: $my__color--milk;
