@@ -5,7 +5,7 @@
       <b-form-input v-model="amount" type="number" min="1" />
     </label>
 
-    <label class="product-options__label product-options__label--maternity ml-2">
+    <label v-if="isMaternityVisible" class="product-options__label product-options__label--maternity ml-2">
       <div class="product-options__label-text product-options__label-text--maternity">Степень зрелости:</div>
       <b-form-select v-model="maternity" :options="maternityOptions" />
     </label>
@@ -13,12 +13,20 @@
 </template>
 
 <script lang="ts">
-import { CHEESE_MATERNITY } from '../../../server/src/registry/PRODUCT_OPTIONS'
+import { CHEESE_MATERNITY, PRODUCT_TYPES } from '../../../server/src/registry/enums/PRODUCT'
+import { ProductDocument } from '../../../server/src/modules/Product/schemas/product.schema'
 
 // TODO Добавлять камамберы разной степени зрелости одновременно
 
 export default {
   name: 'ProductOptions',
+  props: {
+    product: {
+      type: Object,
+      required: true,
+      default: () : ProductDocument | null => null
+    }
+  },
   data () {
     return {
       amount: 1,
@@ -37,6 +45,13 @@ export default {
           text: 'Очень зрелый'
         }
       ]
+    }
+  },
+  computed: {
+    isMaternityVisible () : boolean {
+      const product : ProductDocument = this.product
+
+      return product.productType === PRODUCT_TYPES.CHEESE
     }
   },
   watch: {

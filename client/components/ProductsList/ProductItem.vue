@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink to="/" class="product-item">
+  <NuxtLink :to="link" class="product-item">
     <b-img :src="product.coverPrimary" :alt="product.description" class="product-item__img product-item__img--primary" />
 
     <b-img :src="product.coverSecondary" :alt="product.description" class="product-item__img product-item__img--secondary" />
@@ -15,8 +15,7 @@
 </template>
 
 <script lang="ts">
-
-import { Product } from '../../../server/dist/modules/Product/schemas/product.schema'
+import { ProductDocument } from '../../../server/src/modules/Product/schemas/product.schema'
 
 export default {
   name: 'ProductItem',
@@ -24,14 +23,14 @@ export default {
     product: {
       type: Object,
       required: true,
-      default: () : Product | null => null
+      default: () : ProductDocument | null => null
     }
   },
   computed: {
     link () : string {
-      const { product } : { product: Product } = this
+      const { product } : { product: ProductDocument } = this
 
-      return `/category/${product.urlAlias}?id=${product.id}`
+      return `/category/${product.urlAlias}?id=${product._id}`
     }
   }
 }

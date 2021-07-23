@@ -14,6 +14,12 @@ import { ObjectId } from 'mongoose';
 import { CreateProductDto } from './dto/create-product.dto';
 import { FileFieldsInterceptor } from '@nestjs/platform-express';
 
+const productFileUploadFiles = [
+  { name: 'coverPrimary', maxCount: 1 },
+  { name: 'coverSecondary', maxCount: 1 },
+  { name: 'images', maxCount: 5 },
+];
+
 @Controller('products')
 export class ProductController {
   constructor(private productService: ProductService) {}
@@ -29,21 +35,27 @@ export class ProductController {
   }
 
   @Post()
-  @UseInterceptors(
-    FileFieldsInterceptor([
-      { name: 'coverPrimary', maxCount: 1 },
-      { name: 'coverSecondary', maxCount: 1 },
-    ]),
-  )
+  @UseInterceptors(FileFieldsInterceptor(productFileUploadFiles))
   create(@UploadedFiles() files, @Body() dto: CreateProductDto) {
-    const { coverPrimary, coverSecondary } = files;
+    const { coverPrimary = [], coverSecondary = [], images } = files;
 
-    return this.productService.create(dto, coverPrimary[0], coverSecondary[0]);
+    return this.productService.create(dto, {
+      coverPrimaryFile: coverPrimary[0],
+      coverSecondaryFile: coverSecondary[0],
+      imagesFiles: images,
+    });
   }
 
-  @Patch()
-  update(@Body() dto: CreateProductDto) {
-    return this.productService.update(dto);
+  @Patch(':id')
+  @UseInterceptors(FileFieldsInterceptor(productFileUploadFiles))
+  update(@UploadedFiles() files, @Body() dto: any, @Param('id') id: ObjectId) {
+    const { coverPrimary = [], coverSecondary = [], images } = files;
+
+    return this.productService.update(id, dto, {
+      coverPrimaryFile: coverPrimary[0],
+      coverSecondaryFile: coverSecondary[0],
+      imagesFiles: images,
+    });
   }
 
   @Delete()

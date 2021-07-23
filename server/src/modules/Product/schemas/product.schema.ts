@@ -3,6 +3,7 @@ import { Document } from 'mongoose';
 import * as mongoose from 'mongoose';
 import { SCHEMAS } from '../../../registry/SCHEMAS';
 import { Category } from '../../Category/schemas/category.schema';
+import { PRODUCT_TYPES } from '../../../registry/enums/product';
 
 export type ProductDocument = Product & Document;
 
@@ -19,6 +20,13 @@ export class Product {
 
   @Prop()
   description: string;
+
+  @Prop()
+  ideas: string;
+
+  // TODO Gonna be a reference to Review entity
+  @Prop()
+  reviews: string;
 
   @Prop()
   images: string[];
@@ -59,6 +67,9 @@ export class Product {
     ],
   })
   relatedGoods: Product[];
+
+  @Prop()
+  productType: PRODUCT_TYPES;
 }
 
 export const ProductSchema = SchemaFactory.createForClass(Product);

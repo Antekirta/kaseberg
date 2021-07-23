@@ -1,8 +1,8 @@
 <template>
-  <div class="logo">
+  <NuxtLink to="/" class="logo">
     <span v-if="isText">Kaseberg</span>
     <img v-else :width="width" src="/images/logo/logo--clean.png" alt="">
-  </div>
+  </NuxtLink>
 </template>
 
 <script>
@@ -22,6 +22,8 @@ export default {
 @import "assets/styles/colors";
 
 .logo {
+  display: block;
+  text-decoration: none;
   text-align: center;
   font-size: 24px;
   font-family: 'Deutsch Gothic';
@@ -29,6 +31,7 @@ export default {
 
   &:hover {
     transition: 0.3s;
+    text-decoration: none;
     color: $my__color--black;
   }
 }

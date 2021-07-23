@@ -12,7 +12,7 @@
 
         <product-price :product="product" class="mt-3" />
 
-        <product-options class="mt-3" />
+        <product-options :product="product" class="mt-3" />
 
         <add-to-basket class="mt-3" />
 

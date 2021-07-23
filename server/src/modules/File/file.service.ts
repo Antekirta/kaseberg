@@ -1,7 +1,6 @@
 import { HttpException, HttpStatus, Injectable } from '@nestjs/common';
 import * as path from 'path';
 import * as fs from 'fs';
-import * as uuid from 'uuid';
 
 export enum FileType {
   AUDIO = 'audio',
@@ -22,7 +21,7 @@ export class FileService {
   createFile(type: FileFolderType, file): string {
     try {
       const [originalFileName, fileExtension] = file.originalname.split('.');
-      const fileName = `${originalFileName}_${uuid.v4()}.${fileExtension}`;
+      const fileName = `${originalFileName}_${Date.now()}.${fileExtension}`;
       const filePath = path.resolve(
         __dirname,
         '../../../../client/static/images',

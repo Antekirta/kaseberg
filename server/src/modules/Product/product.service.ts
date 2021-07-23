@@ -5,6 +5,41 @@ import { InjectModel } from '@nestjs/mongoose';
 import { Product, ProductDocument } from './schemas/product.schema';
 import { FileFolderType, FileService } from '../File/file.service';
 
+const saveFiles = (
+  { coverPrimaryFile, coverSecondaryFile, imagesFiles },
+  fileService: FileService,
+) => {
+  let coverPrimaryPath = '',
+    coverSecondaryPath = '',
+    pathsToImages = '';
+
+  if (coverPrimaryFile) {
+    coverPrimaryPath = fileService.createFile(
+      FileFolderType.PRODUCT,
+      coverPrimaryFile,
+    );
+  }
+
+  if (coverSecondaryFile) {
+    coverSecondaryPath = fileService.createFile(
+      FileFolderType.PRODUCT,
+      coverSecondaryFile,
+    );
+  }
+
+  if (imagesFiles) {
+    pathsToImages = imagesFiles.map((imageFile) => {
+      return fileService.createFile(FileFolderType.PRODUCT, imageFile);
+    });
+  }
+
+  return {
+    coverPrimary: coverPrimaryPath,
+    coverSecondary: coverSecondaryPath,
+    images: pathsToImages,
+  };
+};
+
 @Injectable()
 export class ProductService {
   constructor(
@@ -22,28 +57,33 @@ export class ProductService {
 
   async create(
     dto: CreateProductDto,
-    coverPrimaryFile,
-    coverSecondaryFile,
+    { coverPrimaryFile, coverSecondaryFile, imagesFiles },
   ): Promise<ObjectId> {
-    const coverPrimaryPath = this.fileService.createFile(
-      FileFolderType.PRODUCT,
-      coverPrimaryFile,
-    );
-    const coverSecondaryPath = this.fileService.createFile(
-      FileFolderType.PRODUCT,
-      coverSecondaryFile,
-    );
     const product = await this.productModel.create({
       ...dto,
-      coverPrimary: coverPrimaryPath,
-      coverSecondary: coverSecondaryPath,
+      ...saveFiles(
+        { coverPrimaryFile, coverSecondaryFile, imagesFiles },
+        this.fileService,
+      ),
     });
 
     return product.id;
   }
 
-  async update(dto: CreateProductDto) {
-    console.log(dto);
+  async update(
+    id: ObjectId,
+    dto: any,
+    { coverPrimaryFile, coverSecondaryFile, imagesFiles },
+  ): Promise<any> {
+    console.log('imagesFiles: ', imagesFiles);
+
+    return this.productModel.findByIdAndUpdate(id, {
+      ...dto,
+      ...saveFiles(
+        { coverPrimaryFile, coverSecondaryFile, imagesFiles },
+        this.fileService,
+      ),
+    });
   }
 
   async delete(id: ObjectId): Promise<ObjectId> {

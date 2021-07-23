@@ -1,7 +1,7 @@
 <template>
   <div class="product-images">
     <div class="product-images__main">
-      <img :src="mainImage" :alt="product.title" title="Что смотришь? Заказывай!😉">
+      <img :src="mainImage" :alt="product.title">
     </div>
 
     <div class="product-images__mini-list mt-3">

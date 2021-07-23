@@ -1,7 +1,9 @@
 <template>
   <b-row class="main-menu mx-0 justify-content-around" :class="{'main-menu--fullscreen': fullscreen}">
     <li v-for="item in items" :key="item.link" class="main-menu__item mx-0 mb-3 mr-lg-4">
-      <a :href="item.link" class="main-menu__link">{{ item.text }}</a>
+      <NuxtLink :to="item.link" class="main-menu__link">
+        {{ item.text }}
+      </NuxtLink>
     </li>
   </b-row>
 </template>
