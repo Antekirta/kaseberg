@@ -26,6 +26,13 @@ export default {
       required: true,
       default: () : Product | null => null
     }
+  },
+  computed: {
+    link () : string {
+      const { product } : { product: Product } = this
+
+      return `/category/${product.urlAlias}?id=${product.id}`
+    }
   }
 }
 </script>
