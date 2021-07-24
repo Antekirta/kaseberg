@@ -24,7 +24,6 @@
 
 <script lang="ts">
 import { Context } from '@nuxt/types'
-import { Product } from '../../../server/dist/modules/Product/schemas/product.schema'
 import Breadcrumbs from '~/components/Breadcrumbs.vue'
 import ProductImages from '~/components/Product/ProductImages.vue'
 import ProductTitle from '~/components/Product/ProductTitle.vue'
@@ -46,10 +45,10 @@ export default {
     ProductDescription
 
   },
-  async asyncData (ctx: Context): Promise<{product: Product}> {
+  async asyncData (ctx: Context) {
     const { query } = ctx
 
-    const product : Product = await getProductById(query.id as string)
+    const product = await getProductById(query.id as string)
     const category = await getCategoryById(product.category)
 
     return {

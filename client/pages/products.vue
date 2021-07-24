@@ -9,7 +9,7 @@
         >
           <a :name="category.urlAlias" /> <br>
           <h2 class="products__category-title">
-            / {{ category.categoryTitle }}
+            / {{ category.title }}
           </h2>
 
           <hr class="products__hr mt-2 mb-5">

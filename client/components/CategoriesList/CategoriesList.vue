@@ -25,11 +25,8 @@
 </template>
 
 <script lang="ts">
-import { Category } from '../../../server/dist/modules/Category/schemas/category.schema'
 import CategoryItem from '~/components/CategoriesList/CategoryItem.vue'
 import KaButton from '~/components/form/KaButton.vue'
-
-const categories : Category[] = []
 
 export default {
   name: 'CategoriesList',
@@ -40,7 +37,7 @@ export default {
   props: {
     categories: {
       type: Array,
-      default: () => categories
+      default: () => []
     }
   }
 }

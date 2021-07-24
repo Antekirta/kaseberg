@@ -15,20 +15,18 @@
 </template>
 
 <script lang="ts">
-import { ProductDocument } from '../../../server/src/modules/Product/schemas/product.schema'
-
 export default {
   name: 'ProductItem',
   props: {
     product: {
       type: Object,
       required: true,
-      default: () : ProductDocument | null => null
+      default: () => null
     }
   },
   computed: {
     link () : string {
-      const { product } : { product: ProductDocument } = this
+      const { product } = this
 
       return `/category/${product.urlAlias}?id=${product._id}`
     }

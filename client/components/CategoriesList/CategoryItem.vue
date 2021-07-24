@@ -13,16 +13,13 @@
 </template>
 
 <script lang="ts">
-
-import { Category } from '../../../server/dist/modules/Category/schemas/category.schema'
-
 export default {
   name: 'CategoryItem',
   props: {
     category: {
       type: Object,
       required: true,
-      default: () : Category | null => null
+      default: () => null
     }
   }
 }

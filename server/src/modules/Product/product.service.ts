@@ -79,7 +79,7 @@ export class ProductService {
           if (category) {
             if (categoriesMap[category.urlAlias]) {
               categoriesMap[category.urlAlias] = {
-                categoryTitle: category.title,
+                title: category.title,
                 urlAlias: category.urlAlias,
                 products: [
                   ...categoriesMap[category.urlAlias].products,
@@ -92,6 +92,8 @@ export class ProductService {
             } else {
               categoriesMap[category.urlAlias] = {
                 categoryTitle: category.title,
+                title: category.title,
+                urlAlias: category.urlAlias,
                 products: [
                   {
                     ...product,

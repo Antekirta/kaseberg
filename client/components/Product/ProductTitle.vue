@@ -11,19 +11,17 @@
 </template>
 
 <script lang="ts">
-import { Product } from '../../../server/dist/modules/Product/schemas/product.schema'
-
 const component = {
   name: 'ProductTitle',
   props: {
     product: {
       type: Object,
-      default: () : Product | null => null
+      default: () => null
     }
   },
   computed: {
     title () : string {
-      const product : Product = this.product
+      const product = this.product
 
       return product.title
     },
