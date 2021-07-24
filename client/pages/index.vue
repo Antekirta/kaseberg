@@ -18,7 +18,7 @@ import PageSection from '~/components/PageSection.vue'
 import MainCarousel from '~/components/MainCarousel.vue'
 import CategoriesList from '~/components/CategoriesList/CategoriesList.vue'
 import ProductsList from '~/components/ProductsList/ProductsList.vue'
-import { getCategories, getProducts } from '~/shared/repo/main.repository'
+import { getCategories, getPopularProducts } from '~/shared/repo/main.repository'
 
 export default Vue.extend({
   components: {
@@ -30,7 +30,7 @@ export default Vue.extend({
   async asyncData () {
     const [categories, popularProducts] = await Promise.all([
       getCategories(),
-      getProducts()
+      getPopularProducts()
     ])
 
     return {

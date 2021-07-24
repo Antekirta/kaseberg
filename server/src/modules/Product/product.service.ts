@@ -4,6 +4,7 @@ import { CreateProductDto } from './dto/create-product.dto';
 import { InjectModel } from '@nestjs/mongoose';
 import { Product, ProductDocument } from './schemas/product.schema';
 import { FileFolderType, FileService } from '../File/file.service';
+import { CategoryCollectionName } from '../Category/schemas/category.schema';
 
 const saveFiles = (
   { coverPrimaryFile, coverSecondaryFile, imagesFiles },
@@ -49,6 +50,61 @@ export class ProductService {
 
   async getAll(count = 10, offset = 0): Promise<Product[]> {
     return this.productModel.find().skip(Number(offset)).limit(Number(count));
+  }
+
+  async getPopularProducts() {
+    return this.productModel.find({
+      isPopular: true,
+    });
+  }
+
+  getAllWithCategories() {
+    return this.productModel
+      .aggregate([
+        {
+          $lookup: {
+            from: CategoryCollectionName,
+            localField: 'category',
+            foreignField: '_id',
+            as: 'category',
+          },
+        },
+      ])
+      .then((products) => {
+        const categoriesMap = {};
+
+        products.forEach((product) => {
+          const category = product.category[0];
+
+          if (category) {
+            if (categoriesMap[category.urlAlias]) {
+              categoriesMap[category.urlAlias] = {
+                categoryTitle: category.title,
+                urlAlias: category.urlAlias,
+                products: [
+                  ...categoriesMap[category.urlAlias].products,
+                  {
+                    ...product,
+                    category: null,
+                  },
+                ],
+              };
+            } else {
+              categoriesMap[category.urlAlias] = {
+                categoryTitle: category.title,
+                products: [
+                  {
+                    ...product,
+                    category: null,
+                  },
+                ],
+              };
+            }
+          }
+        });
+
+        return categoriesMap;
+      });
   }
 
   async getById(id: ObjectId) {

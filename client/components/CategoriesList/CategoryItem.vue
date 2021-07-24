@@ -1,5 +1,5 @@
 <template>
-  <NuxtLink to="/" class="category-item">
+  <NuxtLink :to="`/products#${category.urlAlias}`" class="category-item">
     <b-img-lazy :src="category.cover" :alt="category.description" class="category-item__img" />
 
     <div class="category-item__title mt-2">

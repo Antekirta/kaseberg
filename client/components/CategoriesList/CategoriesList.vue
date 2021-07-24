@@ -16,9 +16,11 @@
 
     <hr class="categories-list__hr">
 
-    <ka-button class="categories-list__button">
-      Смотреть всё
-    </ka-button>
+    <NuxtLink to="/products">
+      <ka-button class="categories-list__button">
+        Смотреть всё
+      </ka-button>
+    </NuxtLink>
   </div>
 </template>
 

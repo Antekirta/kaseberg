@@ -1,6 +1,6 @@
 <template>
   <b-container class="product p-5 my-5">
-    <span>breadcrumbs</span>
+    <breadcrumbs :breadcrumbs="breadcrumbs" />
 
     <b-row class="mt-5">
       <b-col cols="12" col lg="5">
@@ -25,17 +25,19 @@
 <script lang="ts">
 import { Context } from '@nuxt/types'
 import { Product } from '../../../server/dist/modules/Product/schemas/product.schema'
+import Breadcrumbs from '~/components/Breadcrumbs.vue'
 import ProductImages from '~/components/Product/ProductImages.vue'
 import ProductTitle from '~/components/Product/ProductTitle.vue'
 import ProductPrice from '~/components/Product/ProductPrice.vue'
 import ProductOptions from '~/components/Product/ProductOptions.vue'
 import AddToBasket from '~/components/Product/AddToBasket.vue'
 import ProductDescription from '~/components/Product/ProductDescription.vue'
-import { getProductById } from '~/shared/repo/main.repository'
+import { getCategoryById, getProductById } from '~/shared/repo/main.repository'
 
 export default {
   name: 'Product',
   components: {
+    Breadcrumbs,
     ProductImages,
     ProductTitle,
     ProductPrice,
@@ -48,9 +50,25 @@ export default {
     const { query } = ctx
 
     const product : Product = await getProductById(query.id as string)
+    const category = await getCategoryById(product.category)
 
     return {
-      product
+      product,
+      category
+    }
+  },
+  computed: {
+    breadcrumbs () {
+      return [
+        {
+          text: this.category.title,
+          link: `/products#${this.category.urlAlias}`
+        },
+        {
+          text: this.product.title,
+          link: ''
+        }
+      ]
     }
   }
 }

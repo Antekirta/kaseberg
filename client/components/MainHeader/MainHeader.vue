@@ -26,7 +26,7 @@
 import MainMenu from '~/components/MainMenu/MainMenu.vue'
 import BasketIcon from '~/components/BasketIcon.vue'
 import Logo from '~/components/Logo.vue'
-import { IMainMenuItem } from '~/shared/interfaces/main-menu'
+import { IMainMenuItem } from '~/shared/interfaces/i-main-menu'
 import HamburgerMenu from '~/components/MainMenu/HamburgerMenu.vue'
 
 const mainMenuItems : IMainMenuItem[] = [
@@ -36,7 +36,7 @@ const mainMenuItems : IMainMenuItem[] = [
   },
   {
     text: 'Магазин',
-    link: '/shop'
+    link: '/products'
   },
   {
     text: 'Обо мне',

@@ -26,7 +26,12 @@ export class ProductController {
 
   @Get()
   getAll() {
-    return this.productService.getAll();
+    return this.productService.getAllWithCategories();
+  }
+
+  @Get('popular')
+  getPopularProducts() {
+    return this.productService.getPopularProducts();
   }
 
   @Get(':id')

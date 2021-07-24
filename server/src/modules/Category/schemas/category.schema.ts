@@ -3,6 +3,8 @@ import { Document } from 'mongoose';
 
 export type CategoryDocument = Category & Document;
 
+export const CategoryCollectionName = 'categories';
+
 @Schema()
 export class Category {
   @Prop()
