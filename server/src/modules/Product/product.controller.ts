@@ -6,6 +6,7 @@ import {
   Param,
   Patch,
   Post,
+  Query,
   UploadedFiles,
   UseInterceptors,
 } from '@nestjs/common';
@@ -25,7 +26,10 @@ export class ProductController {
   constructor(private productService: ProductService) {}
 
   @Get()
-  getAll() {
+  getAll(@Query() query: { ids: string[] }) {
+    if (query.ids) {
+      return this.productService.getProductsByIds(query.ids);
+    }
     return this.productService.getAllWithCategories();
   }
 

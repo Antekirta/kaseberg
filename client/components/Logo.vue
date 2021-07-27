@@ -30,9 +30,8 @@ export default {
   color: $my__color--gold;
 
   &:hover {
-    transition: 0.3s;
+    color: $my__color--gold;
     text-decoration: none;
-    color: $my__color--black;
   }
 }
 </style>

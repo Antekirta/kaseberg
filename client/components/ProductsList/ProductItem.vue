@@ -14,7 +14,7 @@
   </NuxtLink>
 </template>
 
-<script lang="ts">
+<script>
 export default {
   name: 'ProductItem',
   props: {
@@ -25,7 +25,7 @@ export default {
     }
   },
   computed: {
-    link () : string {
+    link () {
       const { product } = this
 
       return `/category/${product.urlAlias}?id=${product._id}`

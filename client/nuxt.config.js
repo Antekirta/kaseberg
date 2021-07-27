@@ -23,6 +23,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
+    '~/store/plugins/init-store.client.ts'
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components

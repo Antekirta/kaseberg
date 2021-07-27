@@ -6,39 +6,39 @@ import { Product, ProductDocument } from './schemas/product.schema';
 import { FileFolderType, FileService } from '../File/file.service';
 import { CategoryCollectionName } from '../Category/schemas/category.schema';
 
+interface saveFilesObject {
+  coverPrimary?: string;
+  coverSecondary?: string;
+  images?: string;
+}
+
 const saveFiles = (
   { coverPrimaryFile, coverSecondaryFile, imagesFiles },
   fileService: FileService,
 ) => {
-  let coverPrimaryPath = '',
-    coverSecondaryPath = '',
-    pathsToImages = '';
+  const result: saveFilesObject = {};
 
   if (coverPrimaryFile) {
-    coverPrimaryPath = fileService.createFile(
+    result.coverPrimary = fileService.createFile(
       FileFolderType.PRODUCT,
       coverPrimaryFile,
     );
   }
 
   if (coverSecondaryFile) {
-    coverSecondaryPath = fileService.createFile(
+    result.coverSecondary = fileService.createFile(
       FileFolderType.PRODUCT,
       coverSecondaryFile,
     );
   }
 
   if (imagesFiles) {
-    pathsToImages = imagesFiles.map((imageFile) => {
+    result.images = imagesFiles.map((imageFile) => {
       return fileService.createFile(FileFolderType.PRODUCT, imageFile);
     });
   }
 
-  return {
-    coverPrimary: coverPrimaryPath,
-    coverSecondary: coverSecondaryPath,
-    images: pathsToImages,
-  };
+  return result;
 };
 
 @Injectable()
@@ -50,6 +50,14 @@ export class ProductService {
 
   async getAll(count = 10, offset = 0): Promise<Product[]> {
     return this.productModel.find().skip(Number(offset)).limit(Number(count));
+  }
+
+  async getProductsByIds(ids: string[]) {
+    return this.productModel.find({
+      _id: {
+        $in: ids,
+      },
+    });
   }
 
   async getPopularProducts() {
@@ -133,8 +141,6 @@ export class ProductService {
     dto: any,
     { coverPrimaryFile, coverSecondaryFile, imagesFiles },
   ): Promise<any> {
-    console.log('imagesFiles: ', imagesFiles);
-
     return this.productModel.findByIdAndUpdate(id, {
       ...dto,
       ...saveFiles(

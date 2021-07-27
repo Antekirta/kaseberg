@@ -12,9 +12,9 @@
 
         <product-price :product="product" class="mt-3" />
 
-        <product-options :product="product" class="mt-3" />
+        <product-options v-model="productOptions" :product="product" class="mt-3" />
 
-        <add-to-basket class="mt-3" />
+        <add-to-basket :product-id="product._id" :quantity="productOptions.quantity" class="mt-3" />
 
         <product-description :product="product" class="mt-5" />
       </b-col>
@@ -22,8 +22,7 @@
   </b-container>
 </template>
 
-<script lang="ts">
-import { Context } from '@nuxt/types'
+<script>
 import Breadcrumbs from '~/components/Breadcrumbs.vue'
 import ProductImages from '~/components/Product/ProductImages.vue'
 import ProductTitle from '~/components/Product/ProductTitle.vue'
@@ -45,15 +44,22 @@ export default {
     ProductDescription
 
   },
-  async asyncData (ctx: Context) {
+  async asyncData (ctx) {
     const { query } = ctx
 
-    const product = await getProductById(query.id as string)
+    const product = await getProductById(query.id)
     const category = await getCategoryById(product.category)
 
     return {
       product,
       category
+    }
+  },
+  data () {
+    return {
+      productOptions: {
+        quantity: 1
+      }
     }
   },
   computed: {

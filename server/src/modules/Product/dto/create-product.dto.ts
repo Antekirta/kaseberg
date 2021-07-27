@@ -3,6 +3,7 @@ export class CreateProductDto {
   readonly urlAlias;
   readonly subtitle;
   readonly description;
+  readonly weight;
   readonly ideas;
   readonly reviews;
   readonly images;

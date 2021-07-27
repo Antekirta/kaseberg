@@ -1,30 +1,37 @@
 <template>
   <div class="product-options">
-    <label class="product-options__label product-options__label--amount">
+    <label class="product-options__label product-options__label--quantity">
       <div class="product-options__label-text">Количество:</div>
-      <b-form-input v-model="amount" type="number" min="1" />
+
+      <b-form-input v-model="quantity" type="number" min="1" />
     </label>
   </div>
 </template>
 
-<script lang="ts">
+<script>
 export default {
   name: 'ProductOptions',
   props: {
+    value: {
+      type: Object,
+      required: true
+    },
     product: {
       type: Object,
       required: true,
-      default: ()  => null
+      default: () => null
     }
   },
   data () {
     return {
-      amount: 1
+      quantity: this.value.quantity
     }
   },
   watch: {
-    amount () {
-      this.$emit('change', this.amount)
+    quantity () {
+      this.$emit('input', {
+        quantity: +this.quantity
+      })
     }
   }
 }
@@ -37,7 +44,7 @@ export default {
   &__label {
     max-width: 150px;
 
-    &--amount {
+    &--quantity {
       max-width: 70px;
     }
 

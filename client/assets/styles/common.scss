@@ -11,6 +11,24 @@ $grid-breakpoints: (
 
 body {
   overflow-x: hidden;
-  background-color: $my__color--milk;
+  background-color: transparent;
   font-family: 'Open Sans Condensed', sans-serif;
+}
+
+body::-webkit-scrollbar-track
+{
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  background-color: transparent;
+}
+
+body::-webkit-scrollbar
+{
+  width: 10px;
+  background-color: transparent;
+}
+
+body::-webkit-scrollbar-thumb
+{
+  background-color: $my__color--black;
+  border: 2px solid transparent;
 }

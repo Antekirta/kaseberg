@@ -22,6 +22,9 @@ export class Product {
   description: string;
 
   @Prop()
+  weight: number;
+
+  @Prop()
   ideas: string;
 
   // TODO Gonna be a reference to Review entity
