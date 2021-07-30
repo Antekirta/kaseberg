@@ -2,6 +2,7 @@ import { Module } from '@nestjs/common';
 import { MongooseModule } from '@nestjs/mongoose';
 import { ProductModule } from './modules/Product/product.module';
 import { CategoryModule } from './modules/Category/category.module';
+import { OrderModule } from './modules/Order/order.module';
 
 // TODO Get rid of hardcoded credentials
 const getMongooseConnectionUrl = () => {
@@ -18,6 +19,7 @@ const getMongooseConnectionUrl = () => {
     MongooseModule.forRoot(getMongooseConnectionUrl()),
     ProductModule,
     CategoryModule,
+    OrderModule,
   ],
 })
 export class AppModule {}

@@ -1,7 +1,7 @@
 <template>
   <b-container class="basket-page mt-5">
     <h2 v-if="!products.length">
-      Корзина пуста. Скорее её заполните!
+      Корзина пуста. Скорей же её наполните!
     </h2>
 
     <b-row v-else>
