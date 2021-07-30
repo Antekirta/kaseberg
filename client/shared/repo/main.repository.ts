@@ -38,7 +38,7 @@ export const getProductById = (id: string): Promise<Product> => {
     .then(({ data }) => data)
 }
 
-export const commitOrder = (): Promise<any> => {
-  return axios.post(`${base}/order`)
+export const commitOrder = (dto : any): Promise<any> => {
+  return axios.post(`${base}/order`, dto)
     .then(({ data }) => data)
 }

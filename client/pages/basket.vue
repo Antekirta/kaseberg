@@ -22,12 +22,16 @@
 
         <label class="basket-page__label">
           Куда доставить? <br>
-          <textarea placeholder="Укажите адрес доставки" class="basket-page__textarea mt-1 p-2" />
+          <textarea v-model="deliveryAddress" placeholder="Укажите адрес доставки" class="basket-page__textarea mt-1 p-2" />
         </label>
 
         <label class="basket-page__label">
           Особые пожелания, комментарии? <br>
-          <textarea placeholder="Любая дополнительная информация. Можете просто передать привет 😉" class="basket-page__textarea mt-1 p-2" />
+          <textarea
+            v-model="comment"
+            placeholder="Любая дополнительная информация. Можете просто передать привет 😉"
+            class="basket-page__textarea mt-1 p-2"
+          />
         </label>
       </b-col>
 
@@ -89,11 +93,48 @@
               </g>
             </svg>
 
-            <span>Оформить заказ</span>
+            <span v-b-modal.order-modal>Оформить заказ</span>
+
+            <b-modal
+              id="order-modal"
+              title="Уже почти всё"
+              :cancel-title-html="orderModal.cancelTitleHtml"
+              :ok-title-html="orderModal.okTitleHtml"
+              ok-variant="success"
+              title-class="basket-page__modal-title"
+              :ok-disabled="!phone"
+              @ok="order"
+            >
+              <div class="basket-page__modal-content">
+                Укажите свой номер телефона и нажмите кнопку "Заказать". Мне на почту придёт письмо, я с Вами свяжусь,
+                и мы обсудим время доставки.
+
+                <div class="basket-page__label mt-3">
+                  <b>Телефон</b> (не ошибитесь, а до я до Вас не дозвонюсь!): * <br>
+                  <input v-model="phone" placeholder="8911..." type="tel" class="basket-page__input mt-1 p-2">
+                </div>
+              </div>
+            </b-modal>
           </div>
         </div>
       </b-col>
     </b-row>
+
+    <b-toast
+      v-model="isToasterVisible"
+      toaster="b-toaster-top-full"
+      variant="success"
+      title="Ваш заказ успешно отправлен!"
+      solid
+      header-class="basket-page__toaster-header"
+      body-class="basket-page__toaster-body"
+      :auto-hide-delay="toasterTimeout"
+    >
+      Скоро я с Вами свяжусь! А до тех пор погуляйте по моему инстаграму: <a
+        target="_blank"
+        href="https://www.instagram.com/foam_born/"
+      >Kaseberg39</a>
+    </b-toast>
   </b-container>
 </template>
 
@@ -101,7 +142,7 @@
 import ProductInBasket from '@/components/ProductInBasket'
 import { mapState, mapMutations } from 'vuex'
 import { MUTATIONS } from '@/store'
-import { getProductByIds } from '~/shared/repo/main.repository'
+import { commitOrder, getProductByIds } from '~/shared/repo/main.repository'
 
 export default {
   name: 'Basket',
@@ -110,7 +151,17 @@ export default {
   },
   data () {
     return {
-      products: []
+      products: [],
+      deliveryAddress: '',
+      comment: '',
+      phone: '',
+      orderModal: {
+        isOpen: false,
+        cancelTitleHtml: '<div class="basket-page__modal-btn basket-page__modal-btn--cancel">Вернуться в корзину</div>',
+        okTitleHtml: '<div class="basket-page__modal-btn basket-page__modal-btn--ok">Заказать</div>'
+      },
+      isToasterVisible: false,
+      toasterTimeout: 7000
     }
   },
   computed: {
@@ -140,12 +191,52 @@ export default {
       } else {
         this.products = []
       }
+    },
+
+    async order () {
+      const dto = {
+        deliveryAddress: this.deliveryAddress,
+        comment: this.comment,
+        promoCode: '',
+        price: this.sum,
+        weight: this.products.reduce((acc, { weight }) => {
+          return acc + (weight || 0)
+        }, 0),
+        deliveryCost: this.deliveryCost,
+        phone: this.phone,
+        products: this.products.map((product) => {
+          const quantity = this.basket[product._id]
+
+          return {
+            id: product._id,
+            title: product.title,
+            quantity,
+            pricePerItem: product.price,
+            sum: product.price * quantity
+          }
+        }),
+        date: new Date()
+      }
+
+      await commitOrder(dto)
+
+      console.log('dto: ', dto)
+
+      this.isToasterVisible = true
+
+      // this[MUTATIONS.M_CLEAR_BASKET]()
+
+      // setTimeout(() => {
+      //   this.$router.push({
+      //     path: '/'
+      //   })
+      // }, this.toasterTimeout)
     }
   }
 }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
 @import "assets/styles/common";
 
 .basket-page {
@@ -215,9 +306,11 @@ export default {
   }
 
   &__input {
-    width: 300px;
+    width: 250px;
     height: 40px;
     border: solid 1px $my-_color--black;
+    font-size: 20px;
+    letter-spacing: 0.5px;
   }
 
   &__textarea {
@@ -226,5 +319,34 @@ export default {
     border: solid 1px $my-_color--black;
     resize: none;
   }
+
+  &__modal-title {
+    font-weight: 600;
+    font-size: 24px;
+  }
+
+  &__modal-content {
+    font-size: 20px;
+    letter-spacing: 0.3px;
+    line-height: 24px;
+  }
+
+  &__modal-btn {
+    font-size: 22px;
+  }
+
+  &__toaster-header {
+    font-size: 30px;
+  }
+
+  &__toaster-body {
+    font-size: 24px;
+  }
+}
+
+.b-toaster-top-full, .b-toaster-slot, #b-toaster-top-full {
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
 }
 </style>
